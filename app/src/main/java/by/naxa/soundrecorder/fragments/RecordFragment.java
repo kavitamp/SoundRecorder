@@ -14,12 +14,14 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Chronometer;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -236,12 +238,24 @@ public class RecordFragment extends Fragment {
                     if (PermissionsHelper.checkAndRequestPermissions(
                             RecordFragment.this, MY_PERMISSIONS_REQUEST_RECORD_AUDIO)) {
                         startRecording();
+                    } else {
+                        Toast.makeText(getActivity(), getString(R.string.error_no_permission_granted_record), Toast.LENGTH_LONG).show();
+                        openAppSettings();
                     }
                 } else {
                     stopRecording();
                 }
             }
         };
+    }
+
+    private void openAppSettings() {
+        Intent intent = new Intent(
+                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                Uri.fromParts("package", requireActivity().getPackageName(), null)
+        );
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     private Intent getStartServiceIntent() {
