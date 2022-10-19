@@ -86,7 +86,6 @@
         android:layout_marginBottom="16dp"
         android:fontFamily="sans-serif-condensed"
         android:text="@string/record_prompt"
-        android:textColor="@color/primary_text"
         android:textSize="17sp"
         android:textStyle="bold" />
 
